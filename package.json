@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "start": "node index.js",
-    "db:update": "knex migrate:latest",
-    "db:undo": "knex migrate:rollback"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
