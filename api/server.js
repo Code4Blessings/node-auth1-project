@@ -4,7 +4,7 @@ const server = express();
 
 server.use(express.json());
 
-const userRouter = 
+const userRouter = require('../users/user-router')
 
 server.get('/', (req, res) => {
     res.send({
@@ -12,4 +12,6 @@ server.get('/', (req, res) => {
     })
 })
 
-server.use('/api/users', )
+server.use('/api/users', userRouter );
+
+module.exports = server;

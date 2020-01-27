@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './data/users.db3'
+      filename: './data/auth.db3'
     },
     useNullAsDefault: true,
   },
@@ -18,10 +18,11 @@ module.exports = {
     directory: "./data/seeds"
   },
 
-  
     pool: {
-      min: 2,
-      max: 10
+      //SQLite will NOT enforce Foreign Keys
+      afterCreate: (conn, done) => {
+        conn, run('PRAGMA foreign_keys = ON', done);
+      }
     },
     
 
