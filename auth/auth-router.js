@@ -3,13 +3,26 @@ const router = require('express').Router();
 
 const Users = require('../users/user-model');
 
+router.get('/register', (req, res) => {
+    if(req.headers.authorization) {
+        bc.hash(req.headers.authorization, 8,(err, hash)=> {
+            if(err) {
+                res.status(500).json({
+                    errorMessage: 'broken code',
+                    message: err.message
+                })
+            }else {
+                res.status(200).json({hash});
+            }
+        });
+    }
+})
+
 router.post('/register', (req, res) => {
-    const userData = req.body;
-    const hash = bc.hashSync(req.body.password, 10);
-    userData.password = hash;
+    const { username, password } = req.body;
+    const hash = bc.hashSync(password, 10);
     
-        //hash password before saving the user
-        Users.insert(userData)
+        Users.add({username, password: hash})
         .then(id => {
             res.status(201).json({created: id})
         })
@@ -21,6 +34,32 @@ router.post('/register', (req, res) => {
                 });
             });
         })
+
+router.post('login', (req, res) => {
+    let { username, password } = req.body;
+
+    Users.findBy({ username })
+    .first()
+    .then(user => {
+      if (user) {
+        res.status(200).json({ message: `SUCCESS ${user.username}!` });
+      } else {
+        res.status(401).json({ message: 'Invalid Credentials' });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+            errorMessage: err.message
+      });
+    });
+});
+    
+
+
+
+
+
+
 
 
 
