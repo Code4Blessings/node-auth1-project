@@ -5,8 +5,11 @@ const Users = require('../users/user-model');
 
 router.post('/register', (req, res) => {
     const userData = req.body;
-
-        users.insert(userData)
+    const hash = bc.hashSync(req.body.password, 10);
+    userData.password = hash;
+    
+        //hash password before saving the user
+        Users.insert(userData)
         .then(id => {
             res.status(201).json({created: id})
         })
@@ -15,7 +18,7 @@ router.post('/register', (req, res) => {
             res.status(500).json({
                     errorMessage: "User account could not be created",
                     message: err.message
-             });
+                });
             });
         })
 
