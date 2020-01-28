@@ -1,4 +1,5 @@
 const express = require('express')
+const sessions = require('express-sessions')
 
 const server = express();
 
