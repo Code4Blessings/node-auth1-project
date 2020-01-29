@@ -3,8 +3,9 @@ const router = express.Router();
 const dB = require('../data/dbConfig');
 
 const Users = require('./user-model');
+const restricted = require('../auth/restricted-middleware');
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
  Users.find()
     .then(users => {
         res.status(200).json(users)
