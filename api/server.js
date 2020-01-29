@@ -1,5 +1,6 @@
 const express = require('express')
-const session = require('express-sessions')
+const session = require('express-session')
+const helmet = require('helmet')
 
 const server = express();
 
@@ -15,10 +16,10 @@ const sessionConfig = {
         httpOnly: true, //JS cannot access the cookies on the browser
     },
     resave: false,
-    saveUninitialize: true, //read about it for GDR compliance
+    saveUninitialized: true, //read about it for GDR compliance
 }
 
-
+server.use(helmet());
 server.use(express.json());
 server.use(session(sessionConfig))
 
